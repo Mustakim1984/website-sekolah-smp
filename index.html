@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <title>SMPN 6 Sorong - Sistem Informasi</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+    body {
+      font-family: sans-serif;
+      margin: 0;
+      background-size: cover;
+      background-repeat: no-repeat;
+      background-attachment: fixed;
+    }
+    header, footer { background: #0074cc; color: black; text-align: center; padding: 10px; }
+    nav { background: #005fa3; text-align: center; padding: 10px; }
+    nav a { color: black; margin: 0 15px; text-decoration: none; font-weight: bold; }
+    .container {
+      max-width: 1000px;
+      margin: 20px auto;
+      background: rgba(5, 5, 5, 0.1); /* latar transparan gelap */
+      padding: 20px;
+      border-radius: 8px;
+      color: white;
+    }
+    textarea, input, button, select {
+      width: 100%;
+      padding: 8px;
+      margin-top: 8px;
+      box-sizing: border-box;
+      color: black;
+      background-color: white;
+	   }
+    .hidden {
+      display: none;
+    img { max-width: 100%; border-radius: 5px; }
+    section { margin-bottom: 20px; }
+  </style>
+</head>
+<body>
+
+<header><h1>SMP NEGERI 6 KOTA SORONG</h1></header>
+
+<nav>
+  <a href="#" onclick="showSection('beranda')">Beranda</a>
+  <a href="#" onclick="showSection('login')">Login</a>
+  <a href="#" onclick="showSection('dashboard')">Dashboard Admin</a>
+  <a href="#" onclick="logout()">Logout</a>
+</nav>
+
+<div class="container" id="beranda">
+  <section><h2>Pengumuman</h2><div id="isiDepanPengumuman">Memuat...</div></section>
+  <section><h2>Berita</h2><div id="isiDepanBerita">Memuat...</div></section>
+  <section><h2>Tentang Kami</h2><div id="isiDepanTentang">Memuat...</div></section>
+  <section><h2>Visi</h2><div id="isiDepanVisi">Memuat...</div></section>
+  <section><h2>Misi</h2><div id="isiDepanMisi">Memuat...</div></section>
+  <section><h2>Artikel</h2><div id="isiDepanArtikel">Memuat...</div></section>
+  <section><h2>Kontak</h2><div id="isiDepanKontak">Memuat...</div></section>
+</div>
+
+<div class="container hidden" id="login">
+  <h2>Login Admin</h2>
+  <input type="email" id="adminEmail" placeholder="Email">
+  <input type="password" id="adminPassword" placeholder="Password">
+  <button onclick="login()">Login</button>
+</div>
+
+<div class="container hidden" id="dashboard">
+  <h2>Dashboard Admin</h2>
+
+  <h3>Pengumuman</h3>
+  <textarea id="isiPengumuman" placeholder="Tulis pengumuman..."></textarea>
+  <button onclick="simpanPengumuman()">Simpan Pengumuman</button>
+  <button onclick="resetPengumuman()">Reset Pengumuman</button>
+
+  <h3>Tentang Kami</h3>
+  <textarea id="isiTentang" placeholder="Tulis tentang kami..."></textarea>
+  <button onclick="simpanTentang()">Simpan Tentang</button>
+  <button onclick="resetTentang()">Reset Tentang</button>
+
+  <h3>Visi</h3>
+  <textarea id="isiVisi" placeholder="Tulis visi..."></textarea>
+  <button onclick="simpanVisi()">Simpan Visi</button>
+  <button onclick="resetVisi()">Reset Visi</button>
+
+  <h3>Misi</h3>
+  <textarea id="isiMisi" placeholder="Tulis misi..."></textarea>
+  <button onclick="simpanMisi()">Simpan Misi</button>
+  <button onclick="resetMisi()">Reset Misi</button>
+
+  <h3>Artikel</h3>
+  <textarea id="isiArtikel" placeholder="Tulis artikel..."></textarea>
+  <button onclick="simpanArtikel()">Simpan Artikel</button>
+  <button onclick="resetArtikel()">Reset Artikel</button>
+
+  <h3>Kontak</h3>
+  <textarea id="isiKontak" placeholder="Tulis kontak..."></textarea>
+  <button onclick="simpanKontak()">Simpan Kontak</button>
+  <button onclick="resetKontak()">Reset Kontak</button>
+
+  <h3>Berita</h3>
+  <textarea id="isiBerita" placeholder="Tulis berita..."></textarea>
+  <input type="file" id="gambarBerita" accept="image/*" onchange="previewGambarBerita(event)">
+  <img id="previewBerita" style="max-height:150px; margin-top:10px;" />
+  <button onclick="simpanBerita()">Simpan Berita</button>
+  <button onclick="resetBerita()">Reset Berita</button>
+
+  <h3>Gambar Latar (Background)</h3>
+  <input type="file" id="gambarBackground" accept="image/*" onchange="previewBackground(event)">
+  <img id="previewBackground" style="max-height:150px; margin-top:10px;" />
+  <button onclick="simpanBackground()">Simpan Background</button>
+  <button onclick="resetBackground()">Reset Background</button>
+</div>
+
+<footer>© 2025 SMP NEGERI 6 KOTA SORONG</footer>
+
+<script>
+function showSection(id) {
+  const sectionIds = ['beranda', 'login', 'dashboard'];
+  sectionIds.forEach(sec => document.getElementById(sec).classList.add('hidden'));
+  document.getElementById(id).classList.remove('hidden');
+}
+
+function simpanPengumuman() {
+  localStorage.setItem("pengumuman", document.getElementById("isiPengumuman").value.trim());
+  tampilkanPublik();
+}
+function simpanTentang() {
+  localStorage.setItem("tentangKami", document.getElementById("isiTentang").value.trim());
+  tampilkanPublik();
+}
+function simpanVisi() {
+  localStorage.setItem("visiSekolah", document.getElementById("isiVisi").value.trim());
+  tampilkanPublik();
+}
+function simpanMisi() {
+  localStorage.setItem("misiSekolah", document.getElementById("isiMisi").value.trim());
+  tampilkanPublik();
+}
+function simpanArtikel() {
+  localStorage.setItem("artikelSekolah", document.getElementById("isiArtikel").value.trim());
+  tampilkanPublik();
+}
+function simpanKontak() {
+  localStorage.setItem("kontakKami", document.getElementById("isiKontak").value.trim());
+  tampilkanPublik();
+}
+function resetPengumuman() {
+  localStorage.removeItem("pengumuman");
+  document.getElementById("isiPengumuman").value = "";
+  tampilkanPublik();
+}
+function resetTentang() {
+  localStorage.removeItem("tentangKami");
+  document.getElementById("isiTentang").value = "";
+  tampilkanPublik();
+}
+function resetVisi() {
+  localStorage.removeItem("visiSekolah");
+  document.getElementById("isiVisi").value = "";
+  tampilkanPublik();
+}
+function resetMisi() {
+  localStorage.removeItem("misiSekolah");
+  document.getElementById("isiMisi").value = "";
+  tampilkanPublik();
+}
+function resetArtikel() {
+  localStorage.removeItem("artikelSekolah");
+  document.getElementById("isiArtikel").value = "";
+  tampilkanPublik();
+}
+function resetKontak() {
+  localStorage.removeItem("kontakKami");
+  document.getElementById("isiKontak").value = "";
+  tampilkanPublik();
+}
+function simpanBerita() {
+  const isi = document.getElementById("isiBerita").value.trim();
+  const file = document.getElementById("gambarBerita").files[0];
+  if (file) {
+    const reader = new FileReader();
+    reader.onload = function(e) {
+      localStorage.setItem("gambarBerita", e.target.result);
+      localStorage.setItem("beritaSekolah", isi);
+      tampilkanPublik();
+    };
+    reader.readAsDataURL(file);
+  } else {
+    localStorage.setItem("beritaSekolah", isi);
+    tampilkanPublik();
+  }
+}
+function resetBerita() {
+  localStorage.removeItem("beritaSekolah");
+  localStorage.removeItem("gambarBerita");
+  document.getElementById("isiBerita").value = "";
+  document.getElementById("gambarBerita").value = null;
+  document.getElementById("previewBerita").src = "";
+  tampilkanPublik();
+}
+function previewGambarBerita(event) {
+  const file = event.target.files[0];
+  const reader = new FileReader();
+  reader.onload = function(e) {
+    document.getElementById("previewBerita").src = e.target.result;
+  };
+  reader.readAsDataURL(file);
+}
+function simpanBackground() {
+  const file = document.getElementById("gambarBackground").files[0];
+  if (file) {
+    const reader = new FileReader();
+    reader.onload = function(e) {
+      localStorage.setItem("gambarLatar", e.target.result);
+      aturBackgroundPublik();
+    };
+    reader.readAsDataURL(file);
+  }
+}
+function resetBackground() {
+  localStorage.removeItem("gambarLatar");
+  document.getElementById("gambarBackground").value = null;
+  document.getElementById("previewBackground").src = "";
+  aturBackgroundPublik();
+}
+function previewBackground(event) {
+  const file = event.target.files[0];
+  const reader = new FileReader();
+  reader.onload = function(e) {
+    document.getElementById("previewBackground").src = e.target.result;
+  };
+  reader.readAsDataURL(file);
+}
+function aturBackgroundPublik() {
+  const bg = localStorage.getItem("gambarLatar");
+  document.body.style.backgroundImage = bg ? `url('${bg}')` : "none";
+}
+function tampilkanPublik() {
+  document.getElementById("isiDepanPengumuman").innerText = localStorage.getItem("pengumuman") || "Belum ada.";
+  document.getElementById("isiDepanTentang").innerText = localStorage.getItem("tentangKami") || "Belum ada.";
+  document.getElementById("isiDepanVisi").innerText = localStorage.getItem("visiSekolah") || "Belum ada.";
+  document.getElementById("isiDepanMisi").innerText = localStorage.getItem("misiSekolah") || "Belum ada.";
+  document.getElementById("isiDepanArtikel").innerText = localStorage.getItem("artikelSekolah") || "Belum ada.";
+  document.getElementById("isiDepanKontak").innerText = localStorage.getItem("kontakKami") || "Belum ada.";
+
+  const isiBerita = localStorage.getItem("beritaSekolah") || "Belum ada.";
+  const gambarBerita = localStorage.getItem("gambarBerita") || "";
+  document.getElementById("isiDepanBerita").innerHTML = isiBerita + "<br>" +
+    (gambarBerita ? `<img src="${gambarBerita}" style="max-width:300px; border-radius:8px;">` : "");
+}
+function login() {
+  const email = document.getElementById("adminEmail").value;
+  const pass = document.getElementById("adminPassword").value;
+  if (email === "admin@smp6.com" && pass === "admin123") {
+    showSection('dashboard');
+  } else {
+    alert("Login gagal!");
+  }
+}
+function logout() {
+  showSection('beranda');
+}
+document.addEventListener("DOMContentLoaded", () => {
+  tampilkanPublik();
+  aturBackgroundPublik();
+  showSection("beranda");
+});
+</script>
+
+</body>
+</html>
